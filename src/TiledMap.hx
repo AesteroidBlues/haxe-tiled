@@ -19,7 +19,11 @@ class TiledMap {
     public var nextLayerId(get, null) : Int;
     public var nextObjectId(get, null) : Int;
 
+    public var layers(get, null) : Map<String, TiledLayer>;
+
     public function new(tmxPath : String) {
+        layers = new Map<String, TiledLayer>();
+        
         var xmlString = File.getContent(tmxPath);
         var xml = Xml.parse(xmlString);
 
@@ -30,6 +34,18 @@ class TiledMap {
             }
         }
 
+        setAttributes(xml);
+
+        for (c in xml.elements()) {
+            switch (c.nodeName) {
+                case "layer":
+                    var layer = new TiledLayer(c);
+                    layers.set(layer.name, layer);
+            }
+        }
+    }
+
+    private function setAttributes(xml : Xml) {
         for (a in xml.attributes()) {
             switch (a) {
                 case "version":
@@ -170,5 +186,9 @@ class TiledMap {
 
     private function get_nextObjectId() {
         return this.nextObjectId;
+    }
+
+    private function get_layers() {
+        return this.layers;
     }
 }
