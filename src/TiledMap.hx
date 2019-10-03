@@ -20,9 +20,11 @@ class TiledMap {
     public var nextObjectId(get, null) : Int;
 
     public var layers(get, null) : Map<String, TiledLayer>;
+    public var tilesets(get, null) : Map<String, TiledTileset>;
 
     public function new(tmxPath : String) {
         layers = new Map<String, TiledLayer>();
+        tilesets = new Map<String, TiledTileset>();
         
         var xmlString = File.getContent(tmxPath);
         var xml = Xml.parse(xmlString);
@@ -35,12 +37,22 @@ class TiledMap {
         }
 
         setAttributes(xml);
+        setChildren(xml);
+    }
 
+    private function setChildren(xml : Xml) {
         for (c in xml.elements()) {
             switch (c.nodeName) {
                 case "layer":
                     var layer = new TiledLayer(c);
                     layers.set(layer.name, layer);
+                case "tileset":
+                    var tileSet = new TiledTileset(c);
+                    tilesets.set(tileSet.name, tileSet);
+                case "properties":
+                case "objectgroup":
+                case "imagelayer":
+                case "group":
             }
         }
     }
@@ -190,5 +202,9 @@ class TiledMap {
 
     private function get_layers() {
         return this.layers;
+    }
+
+    private function get_tilesets() {
+        return this.tilesets;
     }
 }

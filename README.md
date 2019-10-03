@@ -1,9 +1,8 @@
-# Haxe project
+# Haxe-Tiled
 
-This is an example Haxe project scaffolded by Visual Studio Code.
+Haxe-Tiled is a TMX file parser that creates useful data structures in Haxe
+with which you can read and render Tiled map files. The format is framework-
+agnostic.
 
-Without further changes the structure is following:
-
- * `src/Main.hx`: Entry point Haxe source file
- * `build.hxml`: Haxe command line file used to build the project
- * `README.md`: This file
+Built using the TMX file definition from Tiled:
+https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-tileset-tile
